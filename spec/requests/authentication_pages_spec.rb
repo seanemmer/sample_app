@@ -147,7 +147,6 @@ describe "Authentication" do
       before { sign_in admin, no_capybara:true }
 
       describe "submitting a DELETE request on self" do
-        before { delete user_path(admin) }
         specify do
           expect{ delete user_path(admin) }.not_to change(User, :count).by(-1)
         end
