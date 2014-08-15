@@ -41,9 +41,9 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    user = User.find(params[:id])
-    unless current_user?(user)
-      user.destroy
+    @user = User.find(params[:id])
+    unless current_user?(@user)
+      @user.destroy
       flash[:success] = "User deleted."    
     else
       flash[:error] = "You can't delete yourself."
