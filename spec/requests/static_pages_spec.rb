@@ -31,6 +31,21 @@ describe "Static pages" do
           expect(page).to have_selector("li##{item.id}", text: item.content)
         end
       end
+
+      it "should display micropost counts (properly pluralized)" do
+        expect(page).to have_content('2 microposts')
+      end
+    end
+
+    describe "should not show delete links for other users" do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:otheruser) { FactoryGirl.create(:user) }
+      before do
+        FactoryGirl.create(:micropost, user: otheruser, content: "Undeletable")
+        sign_in user
+        visit root_path  
+      end
+      it { should_not have_link('delete')}
     end
   end
 
