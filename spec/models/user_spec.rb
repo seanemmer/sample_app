@@ -200,6 +200,15 @@ describe User do
       it { should_not be_following(other_user) }
       its(:followed_users) { should_not include(other_user) }
     end
+
+    it "should destroy associated relationshps" do
+      followed_users = @user.followed_users.to_a
+      @user.destroy
+      expect(followed_users).not_to be_empty
+      followed_users.each do |followed_user|
+        expect(Relationship.where(followed_id: followed_user.id)).to be_empty
+      end
+    end
   end 
 end
 
